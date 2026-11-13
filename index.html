@@ -1,0 +1,2498 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#0B0F19">
+  <title>KEDAIPRO — Smart Culinary & Warkop POS OS</title>
+  <!-- Google Fonts: Plus Jakarta Sans, JetBrains Mono & Space Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* CSS VARIABLES: DUAL THEME SUPPORT (DARK TITANIUM & CRISP LIGHT) */
+    :root {
+      /* Dark Theme Default */
+      --bg-app: #0B0F19;
+      --bg-surface: #111827;
+      --bg-surface-2: #1E293B;
+      --bg-surface-3: #334155;
+      --border-color: #1E293B;
+      --border-focus: #10B981;
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --text-subtle: #64748B;
+      --primary: #10B981;
+      --primary-hover: #059669;
+      --primary-glow: rgba(16, 185, 129, 0.25);
+      --accent: #F59E0B;
+      --accent-glow: rgba(245, 158, 11, 0.2);
+      --danger: #EF4444;
+      --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-xl: 28px;
+    }
+
+    [data-theme="light"] {
+      --bg-app: #F8FAFC;
+      --bg-surface: #FFFFFF;
+      --bg-surface-2: #F1F5F9;
+      --bg-surface-3: #E2E8F0;
+      --border-color: #E2E8F0;
+      --border-focus: #059669;
+      --text-main: #0F172A;
+      --text-muted: #64748B;
+      --text-subtle: #94A3B8;
+      --primary: #059669;
+      --primary-hover: #047857;
+      --primary-glow: rgba(5, 150, 105, 0.2);
+      --accent: #D97706;
+      --accent-glow: rgba(217, 119, 6, 0.15);
+      --danger: #EF4444;
+      --card-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    body {
+      background-color: var(--bg-app);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+      overflow-x: hidden;
+    }
+
+    /* TOP HEADER */
+    .top-header {
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-color);
+      padding: 10px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+
+    .top-header-inner {
+      max-width: 1560px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 20px;
+      font-weight: 900;
+      box-shadow: 0 4px 14px var(--primary-glow);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .brand-text h1 {
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-tag {
+      background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+      color: #ffffff;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .brand-meta {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* NAVIGATION VIEW TABS */
+    .view-nav-tabs {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg-surface-2);
+      padding: 4px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-view-tab {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-view-tab:hover {
+      color: var(--text-main);
+    }
+
+    .btn-view-tab.active {
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 2px 8px var(--primary-glow);
+    }
+
+    /* TOPBAR CONTROLS */
+    .topbar-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .live-clock-badge {
+      background: var(--bg-surface-2);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 6px 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .live-pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 0 2px var(--primary-glow);
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.85); }
+    }
+
+    .btn-icon-control {
+      background: var(--bg-surface-2);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 15px;
+      transition: all 0.15s;
+    }
+
+    .btn-icon-control:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* MULTI-ORDER QUEUE BAR */
+    .queue-strip {
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-color);
+      padding: 8px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .queue-strip::-webkit-scrollbar { display: none; }
+
+    .btn-new-queue {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 99px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px var(--primary-glow);
+    }
+
+    .btn-new-queue:hover { background: var(--primary-hover); }
+
+    .queue-pill {
+      background: var(--bg-surface-2);
+      border: 1px solid var(--border-color);
+      border-radius: 99px;
+      padding: 6px 14px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+      transition: all 0.15s;
+    }
+
+    .queue-pill:hover { border-color: var(--primary); color: var(--text-main); }
+
+    .queue-pill.active {
+      background: var(--primary-glow);
+      border-color: var(--primary);
+      color: var(--primary);
+      font-weight: 800;
+    }
+
+    /* MAIN VIEWS WRAPPER */
+    .main-view-container {
+      flex: 1;
+      max-width: 1560px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* VIEW 1: POS WORKSPACE */
+    .view-pos {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 440px;
+      gap: 20px;
+      align-items: start;
+    }
+
+    /* CATEGORIES & SEARCH CONTROLS */
+    .catalog-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .category-pills-list {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .category-pills-list::-webkit-scrollbar { display: none; }
+
+    .btn-cat-pill {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      border-radius: 99px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+
+    .btn-cat-pill:hover { border-color: var(--primary); color: var(--text-main); }
+
+    .btn-cat-pill.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+      box-shadow: 0 2px 8px var(--primary-glow);
+    }
+
+    .search-input-box {
+      position: relative;
+      min-width: 250px;
+    }
+
+    .search-input-box input {
+      width: 100%;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 99px;
+      padding: 9px 16px 9px 38px;
+      font-size: 13.5px;
+      color: var(--text-main);
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .search-input-box input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+
+    .search-input-box i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-subtle);
+      font-size: 13px;
+    }
+
+    /* FOOD MENU CARDS GRID */
+    .food-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 16px;
+    }
+
+    .food-item-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: var(--card-shadow);
+    }
+
+    .food-item-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--primary);
+      box-shadow: 0 12px 25px -5px var(--primary-glow);
+    }
+
+    .food-item-card:active { transform: scale(0.97); }
+
+    .food-img-container {
+      width: 100%;
+      height: 120px;
+      background: var(--bg-surface-2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .food-img-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .food-item-card:hover .food-img-container img {
+      transform: scale(1.08);
+    }
+
+    .food-card-details {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex: 1;
+    }
+
+    .food-card-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.3;
+      margin-bottom: 6px;
+    }
+
+    .food-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 4px;
+    }
+
+    .food-card-price {
+      font-size: 15.5px;
+      font-weight: 900;
+      color: var(--primary);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .btn-quick-add {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: var(--bg-surface-2);
+      color: var(--primary);
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .food-item-card:hover .btn-quick-add {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+
+    .badge-qty-floating {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 900;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+      border: 2px solid var(--bg-surface);
+      animation: popBadge 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes popBadge {
+      0% { transform: scale(0.4); }
+      100% { transform: scale(1); }
+    }
+
+    /* RIGHT COLUMN: CART & BILLING PANEL */
+    .cart-terminal {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--card-shadow);
+      position: sticky;
+      top: 76px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .cart-terminal-header {
+      padding: 16px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-surface-2);
+    }
+
+    .cart-order-types {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      background: var(--bg-surface-2);
+      padding: 4px;
+      border-radius: 12px;
+      margin: 12px 16px 8px 16px;
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-type-chip {
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      padding: 7px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+
+    .btn-type-chip.active {
+      background: var(--bg-surface);
+      color: var(--text-main);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    }
+
+    .cart-meta-bar {
+      padding: 8px 16px 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .select-terminal, .input-terminal {
+      background: var(--bg-surface-2);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--text-main);
+      outline: none;
+    }
+
+    .select-terminal:focus, .input-terminal:focus {
+      border-color: var(--primary);
+    }
+
+    /* CART ITEMS SCROLLER */
+    .cart-items-scroller {
+      max-height: 290px;
+      overflow-y: auto;
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .cart-empty-panel {
+      text-align: center;
+      padding: 34px 16px;
+      color: var(--text-subtle);
+    }
+
+    .cart-item-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: var(--bg-surface-2);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+
+    .c-details { flex: 1; min-width: 0; }
+    .c-name { font-size: 13.5px; font-weight: 800; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .c-sub { font-size: 11.5px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
+    .c-variant { font-size: 11px; color: var(--accent); font-weight: 700; margin-top: 2px; }
+
+    .c-counter {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-count {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+
+    .btn-count:hover { border-color: var(--primary); color: var(--primary); }
+
+    .c-amount {
+      font-size: 14px;
+      font-weight: 900;
+      color: var(--text-main);
+      font-family: 'JetBrains Mono', monospace;
+      min-width: 72px;
+      text-align: right;
+    }
+
+    /* BILL SUMMARY CALCULATIONS */
+    .cart-calc-box {
+      padding: 16px;
+      border-top: 1px solid var(--border-color);
+      background: var(--bg-surface-2);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .calc-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .calc-line.total-line {
+      font-size: 16px;
+      font-weight: 900;
+      color: var(--text-main);
+      padding-top: 6px;
+      border-top: 1px dashed var(--border-color);
+    }
+
+    .big-total-number {
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--primary);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .btn-action-primary {
+      width: 100%;
+      height: 52px;
+      background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+      color: #ffffff;
+      border: none;
+      border-radius: var(--radius-md);
+      font-size: 16px;
+      font-weight: 900;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 4px 14px var(--primary-glow);
+      transition: all 0.2s;
+    }
+
+    .btn-action-primary:hover {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      transform: translateY(-1px);
+    }
+
+    .btn-action-primary:disabled {
+      background: var(--bg-surface-3);
+      color: var(--text-subtle);
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+
+    .cart-sub-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .btn-sub-action {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+
+    .btn-sub-action:hover { border-color: var(--primary); color: var(--primary); }
+
+    /* VIEW 2: VISUAL TABLE FLOOR PLAN */
+    .view-tables {
+      display: none;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .tables-filter-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 12px 18px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .table-legend-items {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 12.5px;
+      font-weight: 700;
+    }
+
+    .legend-item { display: flex; align-items: center; gap: 6px; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+    .tables-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 16px;
+    }
+
+    .table-card {
+      background: var(--bg-surface);
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 150px;
+      position: relative;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: var(--card-shadow);
+    }
+
+    .table-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 25px -5px rgba(0,0,0,0.25);
+    }
+
+    .table-card.vacant { border-color: var(--border-color); }
+    .table-card.occupied { border-color: #F59E0B; background: rgba(245, 158, 11, 0.05); }
+    .table-card.billing { border-color: #EF4444; background: rgba(239, 68, 68, 0.05); }
+
+    .table-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .table-number-text {
+      font-size: 18px;
+      font-weight: 900;
+      color: var(--text-main);
+    }
+
+    .table-status-pill {
+      font-size: 10.5px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 99px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .pill-vacant { background: rgba(16, 185, 129, 0.15); color: #10B981; }
+    .pill-occupied { background: rgba(245, 158, 11, 0.15); color: #F59E0B; }
+    .pill-billing { background: rgba(239, 68, 68, 0.15); color: #EF4444; }
+
+    .table-body-info {
+      margin: 12px 0;
+    }
+
+    .table-guest-trait {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .table-order-time {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+      margin-top: 2px;
+    }
+
+    .table-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px dashed var(--border-color);
+      padding-top: 10px;
+    }
+
+    /* VIEW 3: KITCHEN DISPLAY SYSTEM (KDS) */
+    .view-kds {
+      display: none;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .kds-tickets-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 16px;
+    }
+
+    .kds-ticket-card {
+      background: var(--bg-surface);
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--card-shadow);
+    }
+
+    .kds-ticket-card.cooking { border-color: #F59E0B; }
+    .kds-ticket-card.ready { border-color: #10B981; }
+
+    .kds-head {
+      background: var(--bg-surface-2);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .kds-order-title { font-size: 15px; font-weight: 900; }
+    .kds-timer { font-size: 12px; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #F59E0B; }
+
+    .kds-items-list {
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .kds-item-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13.5px;
+      font-weight: 700;
+    }
+
+    .kds-item-qty {
+      background: var(--bg-surface-2);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 2px 7px;
+      font-size: 12px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .kds-actions {
+      padding: 12px 14px;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-kds-step {
+      flex: 1;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    /* VIEW 4: ANALYTICS & REKAP */
+    .view-reports {
+      display: none;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .kpi-row-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .kpi-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: var(--card-shadow);
+    }
+
+    .kpi-icon-box {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .kpi-val {
+      font-size: 22px;
+      font-weight: 900;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-main);
+      margin-top: 2px;
+    }
+
+    /* MODAL WINDOWS */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(11, 15, 25, 0.8);
+      backdrop-filter: blur(6px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-sheet {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-xl);
+      max-width: 520px;
+      width: 100%;
+      max-height: 92vh;
+      overflow-y: auto;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.5);
+      transform: scale(0.95);
+      transition: transform 0.25s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-overlay.open .modal-sheet { transform: scale(1); }
+
+    .modal-sheet-head {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-surface-2);
+    }
+
+    .modal-sheet-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* THERMAL 58MM RECEIPT PREVIEW */
+    .receipt-paper {
+      background: #FFFFFF;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      border-radius: 4px;
+      padding: 24px 18px;
+      max-width: 320px;
+      margin: 0 auto;
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      color: #111827;
+      line-height: 1.4;
+      position: relative;
+    }
+
+    /* Zigzag paper edges */
+    .receipt-paper::before, .receipt-paper::after {
+      content: "";
+      position: absolute;
+      left: 0; right: 0;
+      height: 6px;
+      background: radial-gradient(circle, transparent, transparent 50%, #FFFFFF 50%, #FFFFFF 100%);
+      background-size: 12px 12px;
+    }
+    .receipt-paper::before { top: -6px; }
+    .receipt-paper::after { bottom: -6px; }
+
+    .rcp-dash { border-top: 1px dashed #6B7280; margin: 10px 0; }
+    .rcp-double { border-top: 2px dashed #111827; margin: 10px 0; }
+    .rcp-row { display: flex; justify-content: space-between; gap: 8px; }
+
+    /* TOAST */
+    .toast-indicator {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(30px);
+      background: var(--bg-surface);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      padding: 10px 22px;
+      border-radius: 99px;
+      font-size: 13.5px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s ease;
+      z-index: 999;
+    }
+
+    .toast-indicator.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (max-width: 900px) {
+      .view-pos { grid-template-columns: 1fr; }
+      .cart-terminal {
+        position: fixed;
+        bottom: 0; left: 0; right: 0; top: auto;
+        border-radius: 24px 24px 0 0;
+        z-index: 45;
+        max-height: 80vh;
+      }
+      body { padding-bottom: 110px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP HEADER -->
+  <header class="top-header">
+    <div class="top-header-inner">
+      <div class="brand-group" onclick="switchView('pos')">
+        <div class="brand-mark">KP</div>
+        <div class="brand-text">
+          <h1>
+            <span>KEDAIPRO</span>
+            <span class="brand-tag">OS v3.5</span>
+          </h1>
+          <div class="brand-meta">Kedai & Warkop 24 Jam • Kasir: Ahmad Fauzi</div>
+        </div>
+      </div>
+
+      <!-- NAVIGATION TABS -->
+      <nav class="view-nav-tabs">
+        <button class="btn-view-tab active" id="tabPos" onclick="switchView('pos')">
+          <i class="fa-solid fa-cash-register"></i> Kasir POS (F1)
+        </button>
+        <button class="btn-view-tab" id="tabTables" onclick="switchView('tables')">
+          <i class="fa-solid fa-map-location-dot"></i> Denah Meja (F2)
+        </button>
+        <button class="btn-view-tab" id="tabKds" onclick="switchView('kds')">
+          <i class="fa-solid fa-fire-burner"></i> Dapur / KDS (F3)
+        </button>
+        <button class="btn-view-tab" id="tabReports" onclick="switchView('reports')">
+          <i class="fa-solid fa-chart-line"></i> Laporan Omzet
+        </button>
+      </nav>
+
+      <!-- TOPBAR CONTROLS -->
+      <div class="topbar-controls">
+        <div class="live-clock-badge">
+          <span class="live-pulse"></span>
+          <span id="liveClockDisplay">16:45:00 WIB</span>
+        </div>
+
+        <button class="btn-icon-control" id="btnSound" onclick="toggleSound()" title="Efek Suara Aktif">
+          <i class="fa-solid fa-volume-high" id="soundIcon"></i>
+        </button>
+
+        <button class="btn-icon-control" id="btnTheme" onclick="toggleTheme()" title="Ubah Tema Gelap/Terang">
+          <i class="fa-solid fa-moon" id="themeIcon"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MULTI-ORDER QUEUE STRIP -->
+  <div class="queue-strip" id="queueStripBar">
+    <button class="btn-new-queue" onclick="addNewOrderBill()">
+      <i class="fa-solid fa-plus"></i> + Nota Baru
+    </button>
+    <div id="queuePillsList" style="display:flex; gap:8px;"></div>
+  </div>
+
+  <!-- MAIN WORKSPACE -->
+  <main class="main-view-container">
+
+    <!-- VIEW 1: KASIR / POS -->
+    <section class="view-pos" id="viewPos">
+      
+      <!-- LEFT: FOOD CATALOG -->
+      <div class="catalog-column">
+        <div class="catalog-controls">
+          <div class="category-pills-list">
+            <button class="btn-cat-pill active" onclick="filterMenu('semua', this)"><i class="fa-solid fa-border-all"></i> Semua Menu</button>
+            <button class="btn-cat-pill" onclick="filterMenu('makanan', this)"><i class="fa-solid fa-bowl-rice"></i> Makanan Berat</button>
+            <button class="btn-cat-pill" onclick="filterMenu('minuman', this)"><i class="fa-solid fa-mug-hot"></i> Kopi & Minuman</button>
+            <button class="btn-cat-pill" onclick="filterMenu('camilan', this)"><i class="fa-solid fa-bread-slice"></i> Roti & Camilan</button>
+            <button class="btn-cat-pill" onclick="filterMenu('paket', this)"><i class="fa-solid fa-tag"></i> Paket Nongkrong</button>
+          </div>
+
+          <div class="search-input-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="searchInput" placeholder="Ketik nama hidangan..." oninput="onSearchChanged()">
+          </div>
+        </div>
+
+        <!-- PRODUCTS GRID -->
+        <div class="food-cards-grid" id="foodCardsGrid"></div>
+      </div>
+
+      <!-- RIGHT: CART & BILLING TERMINAL -->
+      <aside class="cart-terminal">
+        <div class="cart-terminal-header">
+          <div>
+            <h3 id="currentBillCode" style="font-size:18px; font-weight:900;">Nota #01</h3>
+            <span id="currentBillDesc" style="font-size:11.5px; color:var(--text-muted);">Meja 01 • Dine In</span>
+          </div>
+          <button class="btn-icon-control" style="background:transparent; border:none; color:var(--danger);" onclick="discardActiveBill()" title="Hapus Nota">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        </div>
+
+        <!-- ORDER TYPE -->
+        <div class="cart-order-types">
+          <button class="btn-type-chip active" onclick="setOrderType('Dine In', this)"><i class="fa-solid fa-utensils"></i> Makan di Sini</button>
+          <button class="btn-type-chip" onclick="setOrderType('Bungkus', this)"><i class="fa-solid fa-bag-shopping"></i> Bungkus</button>
+          <button class="btn-type-chip" onclick="setOrderType('Ojol', this)"><i class="fa-solid fa-motorcycle"></i> Ojol Delivery</button>
+        </div>
+
+        <!-- TABLE SELECT & CUSTOMER TRAIT -->
+        <div class="cart-meta-bar">
+          <select class="select-terminal" id="selTableNumber" onchange="onTableMetaChange()">
+            <option value="Meja 01">Meja 01</option>
+            <option value="Meja 02">Meja 02</option>
+            <option value="Meja 03">Meja 03</option>
+            <option value="Meja 04">Meja 04</option>
+            <option value="Meja 05">Meja 05</option>
+            <option value="Meja 06">Meja 06</option>
+            <option value="Meja 07">Meja 07</option>
+            <option value="Meja 08">Meja 08</option>
+            <option value="Meja 09">Meja 09</option>
+            <option value="Meja 10">Meja 10</option>
+            <option value="Meja 11">Meja 11</option>
+            <option value="Meja 12">Meja 12</option>
+            <option value="Area Bar">Area Bar</option>
+            <option value="Sofa VIP">Sofa VIP</option>
+          </select>
+          <input type="text" class="input-terminal" style="flex:1;" id="inputGuestTrait" placeholder="Ciri tamu (misal: 'Baju Merah')" oninput="onTableMetaChange()">
+        </div>
+
+        <!-- ITEMS LIST -->
+        <div class="cart-items-scroller" id="cartItemsList"></div>
+
+        <!-- CALCULATION BOX -->
+        <div class="cart-calc-box">
+          <div class="calc-line">
+            <span>Subtotal Menu</span>
+            <span id="billSubtotalVal" style="font-weight:700; font-family:'JetBrains Mono';">Rp 0</span>
+          </div>
+          <div class="calc-line">
+            <span>Pajak Resto (PB1 10%)</span>
+            <span id="billTaxVal" style="font-weight:700; font-family:'JetBrains Mono';">Rp 0</span>
+          </div>
+          <div class="calc-line total-line">
+            <span>Total Tagihan</span>
+            <span class="big-total-number" id="billGrandTotalVal">Rp 0</span>
+          </div>
+
+          <button class="btn-action-primary" id="btnPayCheckout" onclick="openPaymentModal()" disabled>
+            <i class="fa-solid fa-cash-register"></i>
+            <span>Bayar Tagihan (F9)</span>
+          </button>
+
+          <div class="cart-sub-actions">
+            <button class="btn-sub-action" onclick="sendToKitchen()">
+              <i class="fa-solid fa-fire-burner" style="color:var(--accent);"></i>
+              <span>Kirim ke Dapur</span>
+            </button>
+            <button class="btn-sub-action" onclick="openSplitBillModal()">
+              <i class="fa-solid fa-users-viewfinder" style="color:#3B82F6;"></i>
+              <span>Bagi Tagihan</span>
+            </button>
+          </div>
+        </div>
+      </aside>
+
+    </section>
+
+    <!-- VIEW 2: VISUAL TABLE FLOOR PLAN -->
+    <section class="view-tables" id="viewTables">
+      <div class="tables-filter-bar">
+        <div>
+          <h2 style="font-size:18px; font-weight:900;">Denah Meja Resto & Warkop</h2>
+          <p style="font-size:12px; color:var(--text-muted);">Ketuk salah satu meja untuk langsung membuka nota atau memesan pesanan.</p>
+        </div>
+        <div class="table-legend-items">
+          <div class="legend-item"><span class="legend-dot" style="background:#10B981;"></span> <span>Kosong</span></div>
+          <div class="legend-item"><span class="legend-dot" style="background:#F59E0B;"></span> <span>Makan</span></div>
+          <div class="legend-item"><span class="legend-dot" style="background:#EF4444;"></span> <span>Minta Billing</span></div>
+        </div>
+      </div>
+
+      <div class="tables-grid" id="tablesFloorGrid"></div>
+    </section>
+
+    <!-- VIEW 3: KITCHEN DISPLAY SYSTEM (KDS) -->
+    <section class="view-kds" id="viewKds">
+      <div class="tables-filter-bar">
+        <div>
+          <h2 style="font-size:18px; font-weight:900;">Kitchen Display System (KDS) Dapur</h2>
+          <p style="font-size:12px; color:var(--text-muted);">Tiket pesanan real-time dari kasir untuk tim koki / barista.</p>
+        </div>
+        <button class="btn-new-queue" style="background:var(--bg-surface-2); border:1px solid var(--border-color); color:var(--text-main);" onclick="renderKdsView()">
+          <i class="fa-solid fa-rotate"></i> Muat Ulang
+        </button>
+      </div>
+
+      <div class="kds-tickets-grid" id="kdsTicketsGrid"></div>
+    </section>
+
+    <!-- VIEW 4: ANALYTICS & REKAP OMZET -->
+    <section class="view-reports" id="viewReports">
+      <div class="kpi-row-grid">
+        <div class="kpi-card">
+          <div class="kpi-icon-box" style="background:rgba(16, 185, 129, 0.15); color:#10B981;"><i class="fa-solid fa-money-bill-trend-up"></i></div>
+          <div>
+            <div style="font-size:12px; font-weight:700; color:var(--text-muted);">Total Omzet Hari Ini</div>
+            <div class="kpi-val" id="kpiOmzetVal" style="color:var(--primary);">Rp 0</div>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon-box" style="background:rgba(59, 130, 246, 0.15); color:#3B82F6;"><i class="fa-solid fa-receipt"></i></div>
+          <div>
+            <div style="font-size:12px; font-weight:700; color:var(--text-muted);">Jumlah Transaksi</div>
+            <div class="kpi-val" id="kpiTxnCount">0 Nota</div>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon-box" style="background:rgba(245, 158, 11, 0.15); color:#F59E0B;"><i class="fa-solid fa-calculator"></i></div>
+          <div>
+            <div style="font-size:12px; font-weight:700; color:var(--text-muted);">Rata-rata Belanja</div>
+            <div class="kpi-val" id="kpiAvgVal">Rp 0</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:var(--bg-surface); border:1px solid var(--border-color); border-radius:var(--radius-md); padding:18px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+          <h3 style="font-size:16px; font-weight:800;">Riwayat Nota Lunas Hari Ini</h3>
+          <button class="btn-new-queue" onclick="exportDataJson()"><i class="fa-solid fa-download"></i> Ekspor JSON</button>
+        </div>
+        <div id="txHistoryTable" style="display:flex; flex-direction:column; gap:8px; max-height:360px; overflow-y:auto;"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL: VARIANT / MODIFIER DIALOG -->
+  <div class="modal-overlay" id="modalModifier">
+    <div class="modal-sheet" style="max-width:440px;">
+      <div class="modal-sheet-head">
+        <h3 id="modItemName">Varian Menu</h3>
+        <button class="btn-icon-control" style="border:none;" onclick="closeModal('modalModifier')">&times;</button>
+      </div>
+      <div class="modal-sheet-body">
+        <div>
+          <label style="font-size:12.5px; font-weight:800; color:var(--text-muted); display:block; margin-bottom:8px;">Tingkat Kepedasan:</label>
+          <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:6px;">
+            <button class="btn-sub-action active" id="spicy0" onclick="setSpicyLevel('Level 0 (Tidak Pedas)', this)">Level 0</button>
+            <button class="btn-sub-action" id="spicy1" onclick="setSpicyLevel('Level 1 (Sedang)', this)">Level 1</button>
+            <button class="btn-sub-action" id="spicy2" onclick="setSpicyLevel('Level 2 (Pedas)', this)">Level 2</button>
+            <button class="btn-sub-action" id="spicy3" onclick="setSpicyLevel('Level 3 (Ekstra 🔥)', this)">Level 3</button>
+          </div>
+        </div>
+
+        <div>
+          <label style="font-size:12.5px; font-weight:800; color:var(--text-muted); display:block; margin-bottom:8px;">Pilihan Tambahan / Topping:</label>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <label style="display:flex; justify-content:space-between; align-items:center; background:var(--bg-surface-2); padding:10px 12px; border-radius:8px; cursor:pointer;">
+              <span>Telur Mata Sapi (+Rp 4.000)</span>
+              <input type="checkbox" id="topEgg" style="accent-color:var(--primary); width:18px; height:18px;">
+            </label>
+            <label style="display:flex; justify-content:space-between; align-items:center; background:var(--bg-surface-2); padding:10px 12px; border-radius:8px; cursor:pointer;">
+              <span>Keju Parut Melimpah (+Rp 3.000)</span>
+              <input type="checkbox" id="topCheese" style="accent-color:var(--primary); width:18px; height:18px;">
+            </label>
+            <label style="display:flex; justify-content:space-between; align-items:center; background:var(--bg-surface-2); padding:10px 12px; border-radius:8px; cursor:pointer;">
+              <span>Daging Kornet Spesial (+Rp 5.000)</span>
+              <input type="checkbox" id="topBeef" style="accent-color:var(--primary); width:18px; height:18px;">
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <label style="font-size:12.5px; font-weight:800; color:var(--text-muted); display:block; margin-bottom:4px;">Catatan Dapur Khusus:</label>
+          <input type="text" id="modNoteInput" class="input-terminal" style="width:100%;" placeholder="Contoh: jangan pakai daun bawang, kuah dipisah">
+        </div>
+
+        <button class="btn-action-primary" onclick="confirmAddWithModifiers()">
+          <i class="fa-solid fa-cart-plus"></i> Masukkan ke Pesanan
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: PEMBAYARAN MULTI METODE -->
+  <div class="modal-overlay" id="modalPayment">
+    <div class="modal-sheet">
+      <div class="modal-sheet-head">
+        <h3><i class="fa-solid fa-cash-register" style="color:var(--primary);"></i> Pembayaran Kasir</h3>
+        <button class="btn-icon-control" style="border:none;" onclick="closeModal('modalPayment')">&times;</button>
+      </div>
+      <div class="modal-sheet-body">
+        <!-- TOTAL BILL DISPLAY -->
+        <div style="background:linear-gradient(135deg, #064E3B 0%, #065F46 100%); color:#fff; border-radius:var(--radius-md); padding:18px; text-align:center;">
+          <div style="font-size:12px; text-transform:uppercase; letter-spacing:1px; opacity:0.8; font-weight:700;">Total Tagihan Konsumen</div>
+          <div style="font-size:38px; font-weight:900; font-family:'JetBrains Mono'; margin-top:2px;" id="payFinalTotal">Rp 0</div>
+          <div id="payBillMetaDesc" style="font-size:12px; opacity:0.85; margin-top:4px;">Nota #01 • Meja 01</div>
+        </div>
+
+        <!-- PAYMENT METHODS GRID -->
+        <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:8px;">
+          <button class="btn-sub-action active" id="methCash" onclick="selectMethod('cash', this)"><i class="fa-solid fa-money-bill-wave" style="color:#10B981;"></i> Tunai</button>
+          <button class="btn-sub-action" id="methQris" onclick="selectMethod('qris', this)"><i class="fa-solid fa-qrcode" style="color:#EF4444;"></i> QRIS</button>
+          <button class="btn-sub-action" id="methEdc" onclick="selectMethod('edc', this)"><i class="fa-solid fa-credit-card" style="color:#3B82F6;"></i> EDC</button>
+          <button class="btn-sub-action" id="methTf" onclick="selectMethod('transfer', this)"><i class="fa-solid fa-building-columns" style="color:#8B5CF6;"></i> Transfer</button>
+        </div>
+
+        <!-- SECTION: CASH -->
+        <div id="paySectionCash">
+          <label style="font-size:12px; font-weight:800; color:var(--text-muted); margin-bottom:8px; display:block;">Pilihan Uang Tunai Cepat:</label>
+          <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:8px;" id="cashPresetsBox"></div>
+
+          <div style="margin-top:12px;">
+            <label style="font-size:12px; font-weight:800; color:var(--text-muted); margin-bottom:4px; display:block;">Nominal Tunai Manual (Rp):</label>
+            <input type="number" id="inputManualCash" class="input-terminal" style="width:100%; font-size:18px; font-family:'JetBrains Mono'; font-weight:900;" oninput="calcChange()">
+          </div>
+
+          <div style="background:var(--bg-surface-2); border:1px solid var(--border-color); border-radius:12px; padding:12px; text-align:center; margin-top:14px;">
+            <div style="font-size:11.5px; font-weight:800; color:var(--text-muted);">UANG KEMBALIAN KONSUMEN:</div>
+            <div style="font-size:28px; font-weight:900; font-family:'JetBrains Mono'; color:#10B981;" id="txtChangeDue">Rp 0</div>
+          </div>
+        </div>
+
+        <!-- SECTION: QRIS -->
+        <div id="paySectionQris" style="display:none; text-align:center;">
+          <div style="background:#fff; border-radius:14px; padding:16px; border:2px solid var(--border-color); display:inline-block;">
+            <div style="font-size:20px; font-weight:900; color:#EF4444; letter-spacing:1px; margin-bottom:6px;">QRIS <small style="background:#0F172A; color:#fff; font-size:9px; padding:2px 4px; border-radius:3px;">NPS</small></div>
+            <!-- SVG QR CODE -->
+            <svg width="170" height="170" viewBox="0 0 170 170">
+              <rect width="170" height="170" fill="#fff"/>
+              <rect x="10" y="10" width="40" height="40" fill="#0f172a"/><rect x="17" y="17" width="26" height="26" fill="#fff"/><rect x="23" y="23" width="14" height="14" fill="#0f172a"/>
+              <rect x="120" y="10" width="40" height="40" fill="#0f172a"/><rect x="127" y="17" width="26" height="26" fill="#fff"/><rect x="133" y="23" width="14" height="14" fill="#0f172a"/>
+              <rect x="10" y="120" width="40" height="40" fill="#0f172a"/><rect x="17" y="127" width="26" height="26" fill="#fff"/><rect x="23" y="133" width="14" height="14" fill="#0f172a"/>
+              <g fill="#0f172a">
+                <rect x="70" y="20" width="8" height="8"/><rect x="85" y="20" width="8" height="8"/><rect x="95" y="30" width="8" height="8"/>
+                <rect x="70" y="45" width="8" height="8"/><rect x="80" y="55" width="8" height="8"/><rect x="20" y="70" width="8" height="8"/>
+                <rect x="65" y="70" width="14" height="14"/><rect x="90" y="70" width="8" height="8"/><rect x="130" y="70" width="8" height="8"/>
+                <rect x="70" y="100" width="8" height="8"/><rect x="90" y="110" width="8" height="8"/><rect x="120" y="125" width="8" height="8"/>
+                <circle cx="85" cy="85" r="12" fill="#ef4444"/>
+                <text x="85" y="89" font-size="9" font-weight="900" fill="#fff" text-anchor="middle" font-family="sans-serif">Q</text>
+              </g>
+            </svg>
+            <div style="font-size:11px; color:#475569; font-weight:700; margin-top:4px;">Scan QRIS via BCA / GoPay / OVO / Dana</div>
+          </div>
+        </div>
+
+        <button class="btn-action-primary" id="btnFinishTx" onclick="finalizeTransaction()">
+          <i class="fa-solid fa-circle-check"></i> Selesaikan Transaksi Lunas
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: STRUK THERMAL 58MM -->
+  <div class="modal-overlay" id="modalReceipt">
+    <div class="modal-sheet" style="max-width:390px;">
+      <div class="modal-sheet-head">
+        <h3><i class="fa-solid fa-receipt" style="color:var(--primary);"></i> Struk Kasir 58mm</h3>
+        <button class="btn-icon-control" style="border:none;" onclick="closeModal('modalReceipt')">&times;</button>
+      </div>
+      <div class="modal-sheet-body">
+        
+        <!-- PHYSICAL RECEIPT TICKET -->
+        <div class="receipt-paper" id="receiptPaper">
+          <div style="text-align:center;">
+            <div style="font-size:16px; font-weight:800; letter-spacing:1px;">KEDAIPRO WARKOP</div>
+            <div style="font-size:10px; color:#4B5563;">SMART CULINARY & WARKOP 24 JAM</div>
+            <div style="font-size:9.5px; color:#6B7280;">Jl. Boulevard Raya Blok Q No. 8, Jakarta</div>
+            <div style="font-size:9.5px; color:#6B7280;">WA: 0812-3456-7890 • IG: @kedaipro.id</div>
+          </div>
+
+          <div class="rcp-dash"></div>
+
+          <div class="rcp-row"><span>No. Nota:</span><b id="rcpTxId">TRX-20261113-0001</b></div>
+          <div class="rcp-row"><span>Waktu:</span><span id="rcpTimeStr">13/11/26 16:50 WIB</span></div>
+          <div class="rcp-row"><span>Kasir:</span><span>Ahmad Fauzi</span></div>
+          <div class="rcp-row"><span>Meja / Tamu:</span><b id="rcpTableStr">Meja 01</b></div>
+          <div class="rcp-row"><span>Tipe:</span><span id="rcpTypeStr">Dine In</span></div>
+
+          <div class="rcp-dash"></div>
+
+          <div id="rcpItemsContainer" style="display:flex; flex-direction:column; gap:4px;"></div>
+
+          <div class="rcp-dash"></div>
+
+          <div class="rcp-row"><span>Subtotal:</span><span id="rcpSubVal">Rp 0</span></div>
+          <div class="rcp-row"><span>PB1 Resto 10%:</span><span id="rcpTaxVal">Rp 0</span></div>
+
+          <div class="rcp-double"></div>
+
+          <div class="rcp-row" style="font-size:14px; font-weight:900;"><span>TOTAL:</span><span id="rcpTotalVal">Rp 0</span></div>
+          <div class="rcp-row"><span id="rcpPayType">Bayar Tunai:</span><span id="rcpPaidVal">Rp 0</span></div>
+          <div class="rcp-row" style="font-weight:700;"><span>Kembalian:</span><span id="rcpChangeVal">Rp 0</span></div>
+
+          <div class="rcp-dash"></div>
+
+          <!-- Barcode line -->
+          <svg viewBox="0 0 180 32" style="width:100%; height:32px;">
+            <g fill="#111827">
+              <rect x="5" y="0" width="3" height="28"/><rect x="11" y="0" width="2" height="28"/><rect x="16" y="0" width="4" height="28"/>
+              <rect x="24" y="0" width="2" height="28"/><rect x="30" y="0" width="5" height="28"/><rect x="40" y="0" width="3" height="28"/>
+              <rect x="48" y="0" width="2" height="28"/><rect x="54" y="0" width="4" height="28"/><rect x="62" y="0" width="6" height="28"/>
+              <rect x="72" y="0" width="2" height="28"/><rect x="80" y="0" width="4" height="28"/><rect x="90" y="0" width="3" height="28"/>
+              <rect x="98" y="0" width="5" height="28"/><rect x="108" y="0" width="2" height="28"/><rect x="114" y="0" width="4" height="28"/>
+              <rect x="124" y="0" width="3" height="28"/><rect x="132" y="0" width="6" height="28"/><rect x="142" y="0" width="2" height="28"/>
+              <rect x="150" y="0" width="4" height="28"/><rect x="160" y="0" width="3" height="28"/><rect x="168" y="0" width="2" height="28"/>
+            </g>
+          </svg>
+
+          <div style="text-align:center; font-size:9.5px; color:#4B5563; margin-top:6px;">
+            <div>TERIMA KASIH TELAH NONGKRONG!</div>
+            <div>Password Wifi: kedaipronikmat</div>
+          </div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <button class="btn-action-primary" onclick="printReceipt()"><i class="fa-solid fa-print"></i> Cetak Struk (Printer 58mm)</button>
+          <button class="btn-sub-action" style="background:#25D366; color:#fff; border:none; font-weight:800;" onclick="shareWhatsApp()"><i class="fa-brands fa-whatsapp" style="font-size:16px;"></i> Kirim via WhatsApp</button>
+          <button class="btn-sub-action" onclick="closeModal('modalReceipt')">Tutup & Siap Transaksi Baru</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: SPLIT BILL -->
+  <div class="modal-overlay" id="modalSplit">
+    <div class="modal-sheet" style="max-width:400px;">
+      <div class="modal-sheet-head">
+        <h3><i class="fa-solid fa-users" style="color:#3B82F6;"></i> Bagi Tagihan (Split Bill)</h3>
+        <button class="btn-icon-control" style="border:none;" onclick="closeModal('modalSplit')">&times;</button>
+      </div>
+      <div class="modal-sheet-body">
+        <div style="text-align:center;">
+          <div style="font-size:12px; color:var(--text-muted);">Total Tagihan Nota:</div>
+          <div style="font-size:30px; font-weight:900; font-family:'JetBrains Mono'; color:var(--primary);" id="splitTotalDisplay">Rp 0</div>
+        </div>
+
+        <div>
+          <label style="font-size:12.5px; font-weight:800; display:block; margin-bottom:8px;">Bagi Rata untuk Berapa Orang?</label>
+          <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:8px;">
+            <button class="btn-sub-action active" onclick="calcSplit(2, this)">2 Org</button>
+            <button class="btn-sub-action" onclick="calcSplit(3, this)">3 Org</button>
+            <button class="btn-sub-action" onclick="calcSplit(4, this)">4 Org</button>
+            <button class="btn-sub-action" onclick="calcSplit(5, this)">5 Org</button>
+          </div>
+        </div>
+
+        <div style="background:var(--bg-surface-2); border:1px solid var(--border-color); border-radius:12px; padding:16px; text-align:center;">
+          <div style="font-size:12px; color:var(--text-muted); font-weight:700;">Setiap Orang Membayar:</div>
+          <div style="font-size:26px; font-weight:900; color:#3B82F6; font-family:'JetBrains Mono';" id="splitResultAmount">Rp 0</div>
+        </div>
+
+        <button class="btn-action-primary" onclick="closeModal('modalSplit')">Selesai</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast-indicator" id="toastBox">
+    <i class="fa-solid fa-circle-check" style="color:#10B981;"></i>
+    <span id="toastMessage">Pesan</span>
+  </div>
+
+  <!-- JAVASCRIPT APPLICATION LOGIC -->
+  <script>
+    // 1. SOUND SYNTHESIS ENGINE
+    let audioCtx = null;
+    let isSoundOn = true;
+
+    function initAudioEngine() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+
+    function playSfx(type) {
+      if (!isSoundOn) return;
+      try {
+        initAudioEngine();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        if (type === 'tap') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(600, now);
+          osc.frequency.exponentialRampToValueAtTime(350, now + 0.04);
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+          osc.start(now);
+          osc.stop(now + 0.04);
+        } else if (type === 'cash') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(987.77, now);
+          osc.frequency.setValueAtTime(1318.51, now + 0.08);
+          gain.gain.setValueAtTime(0.25, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+          osc.start(now);
+          osc.stop(now + 0.35);
+        } else if (type === 'bell') {
+          // Kitchen Bell Ding
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(1200, now);
+          osc.frequency.exponentialRampToValueAtTime(900, now + 0.5);
+          gain.gain.setValueAtTime(0.3, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+          osc.start(now);
+          osc.stop(now + 0.5);
+        }
+      } catch (e) {}
+    }
+
+    function toggleSound() {
+      isSoundOn = !isSoundOn;
+      const icon = document.getElementById('soundIcon');
+      if (isSoundOn) {
+        icon.className = "fa-solid fa-volume-high";
+        playSfx('tap');
+        showToast("Suara taktil diaktifkan");
+      } else {
+        icon.className = "fa-solid fa-volume-xmark";
+        showToast("Suara taktil dinonaktifkan");
+      }
+    }
+
+    // 2. THEME ENGINE
+    function toggleTheme() {
+      const html = document.documentElement;
+      const current = html.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+
+      const icon = document.getElementById('themeIcon');
+      icon.className = next === 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+      playSfx('tap');
+      showToast(`Tema diubah ke ${next === 'dark' ? 'Dark Titanium' : 'Crisp Daylight'}`);
+    }
+
+    // 3. CATALOG DATA
+    const PRODUCTS = [
+      { id: "m1", name: "Indomie Dok-Dok Spesial Telur", cat: "makanan", price: 18000, img: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=400&q=80" },
+      { id: "m2", name: "Nasi Goreng Wagyu Babat", cat: "makanan", price: 28000, img: "https://images.unsplash.com/photo-1603133872878-684f208fb84b?auto=format&fit=crop&w=400&q=80" },
+      { id: "m3", name: "Nasi Gila Menteng Sosis Kornet", cat: "makanan", price: 22000, img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=400&q=80" },
+      { id: "m4", name: "Ayam Bakar Madu Sambal Terasi", cat: "makanan", price: 24000, img: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=400&q=80" },
+      { id: "m5", name: "Mie Aceh Kuah Daging Rempah", cat: "makanan", price: 25000, img: "https://images.unsplash.com/photo-1541832676-9b763b0239ab?auto=format&fit=crop&w=400&q=80" },
+
+      { id: "m6", name: "Es Kopi Susu Senja Gula Aren", cat: "minuman", price: 16000, img: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=400&q=80" },
+      { id: "m7", name: "Matcha Latte Creamy Aren", cat: "minuman", price: 18000, img: "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=400&q=80" },
+      { id: "m8", name: "Teh Tarik Panas Medan", cat: "minuman", price: 12000, img: "https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=400&q=80" },
+      { id: "m9", name: "Es Jeruk Murni Kasturi", cat: "minuman", price: 10000, img: "https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&w=400&q=80" },
+
+      { id: "m10", name: "Roti Bakar Keju Coklat Lumer", cat: "camilan", price: 16000, img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=400&q=80" },
+      { id: "m11", name: "Pisang Bakar Coklat Wijen", cat: "camilan", price: 14000, img: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=400&q=80" },
+      { id: "m12", name: "Cireng Krispi Bumbu Rujak", cat: "camilan", price: 12000, img: "https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=400&q=80" },
+
+      { id: "m13", name: "Combo Warkop 1 (Indomie + Es Kopi)", cat: "paket", price: 30000, img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=400&q=80" },
+      { id: "m14", name: "Paket Ngopi Santai (Kopi + Roti)", cat: "paket", price: 28000, img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=400&q=80" }
+    ];
+
+    // 4. FLOOR TABLES DATA (12 TABLES)
+    const TABLES_MASTER = [
+      { id: "Meja 01", capacity: 4, type: "Reguler" },
+      { id: "Meja 02", capacity: 2, type: "Couple" },
+      { id: "Meja 03", capacity: 4, type: "Reguler" },
+      { id: "Meja 04", capacity: 6, type: "Family" },
+      { id: "Meja 05", capacity: 2, type: "Couple" },
+      { id: "Meja 06", capacity: 4, type: "Reguler" },
+      { id: "Meja 07", capacity: 4, type: "Reguler" },
+      { id: "Meja 08", capacity: 6, type: "Family" },
+      { id: "Meja 09", capacity: 2, type: "Couple" },
+      { id: "Meja 10", capacity: 4, type: "Reguler" },
+      { id: "Meja 11", capacity: 8, type: "VIP Sofa" },
+      { id: "Meja 12", capacity: 4, type: "Bar Area" }
+    ];
+
+    // 5. APPLICATION STATE
+    let orderBills = [];
+    let activeBillId = null;
+    let billSerial = 1;
+    let completedRecords = [];
+    let kitchenTickets = [];
+    let currentFilterCat = 'semua';
+    let selectedPayMethod = 'cash';
+    let enteredCash = 0;
+    let lastReceipt = null;
+
+    // Pending modifier selection
+    let pendingModifierProduct = null;
+    let selectedSpicy = 'Level 1 (Sedang)';
+
+    // INIT
+    function init() {
+      // Clock live
+      setInterval(updateLiveClock, 1000);
+      updateLiveClock();
+
+      // Load saved state or default
+      const savedBills = localStorage.getItem('kedaipro_bills');
+      if (savedBills) {
+        orderBills = JSON.parse(savedBills);
+        if (orderBills.length > 0) activeBillId = orderBills[0].id;
+      }
+      if (orderBills.length === 0) {
+        addNewOrderBill(false);
+      }
+
+      const savedHist = localStorage.getItem('kedaipro_history');
+      if (savedHist) completedRecords = JSON.parse(savedHist);
+
+      const savedCounter = localStorage.getItem('kedaipro_serial');
+      if (savedCounter) billSerial = parseInt(savedCounter);
+
+      renderQueueStrip();
+      renderCatalogGrid();
+      renderCartTerminal();
+    }
+
+    function saveLocalStorage() {
+      localStorage.setItem('kedaipro_bills', JSON.stringify(orderBills));
+      localStorage.setItem('kedaipro_history', JSON.stringify(completedRecords));
+      localStorage.setItem('kedaipro_serial', billSerial.toString());
+    }
+
+    function formatRp(num) {
+      return "Rp " + (num || 0).toLocaleString('id-ID');
+    }
+
+    function updateLiveClock() {
+      const now = new Date();
+      document.getElementById('liveClockDisplay').innerText = now.toLocaleTimeString('id-ID') + " WIB";
+    }
+
+    // NAVIGATION SWITCHER
+    function switchView(viewName) {
+      playSfx('tap');
+      document.querySelectorAll('.btn-view-tab').forEach(b => b.classList.remove('active'));
+      document.getElementById('viewPos').style.display = 'none';
+      document.getElementById('viewTables').style.display = 'none';
+      document.getElementById('viewKds').style.display = 'none';
+      document.getElementById('viewReports').style.display = 'none';
+
+      if (viewName === 'pos') {
+        document.getElementById('tabPos').classList.add('active');
+        document.getElementById('viewPos').style.display = 'grid';
+      } else if (viewName === 'tables') {
+        document.getElementById('tabTables').classList.add('active');
+        document.getElementById('viewTables').style.display = 'flex';
+        renderTablesFloor();
+      } else if (viewName === 'kds') {
+        document.getElementById('tabKds').classList.add('active');
+        document.getElementById('viewKds').style.display = 'flex';
+        renderKdsView();
+      } else if (viewName === 'reports') {
+        document.getElementById('tabReports').classList.add('active');
+        document.getElementById('viewReports').style.display = 'flex';
+        renderReportsView();
+      }
+    }
+
+    // QUEUE STRIP LOGIC
+    function addNewOrderBill(autoRender = true) {
+      playSfx('tap');
+      const numCode = String(billSerial++).padStart(2, '0');
+      const newBill = {
+        id: "bill_" + Date.now(),
+        number: numCode,
+        createdAt: Date.now(),
+        orderType: "Dine In",
+        table: `Meja ${numCode}`,
+        guestTrait: "",
+        items: [] // array of { prodId, qty, variant, extraPrice }
+      };
+
+      orderBills.push(newBill);
+      activeBillId = newBill.id;
+      saveLocalStorage();
+
+      if (autoRender) {
+        renderQueueStrip();
+        renderCartTerminal();
+        renderCatalogGrid();
+        showToast(`Nota #${numCode} dibuat`);
+      }
+    }
+
+    function getActiveOrder() {
+      return orderBills.find(b => b.id === activeBillId);
+    }
+
+    function selectQueueBill(id) {
+      playSfx('tap');
+      activeBillId = id;
+      renderQueueStrip();
+      renderCartTerminal();
+      renderCatalogGrid();
+    }
+
+    function renderQueueStrip() {
+      const container = document.getElementById('queuePillsList');
+      container.innerHTML = "";
+
+      orderBills.forEach(b => {
+        const pill = document.createElement('button');
+        pill.className = `queue-pill ${b.id === activeBillId ? 'active' : ''}`;
+        pill.onclick = () => selectQueueBill(b.id);
+
+        const totalQty = b.items.reduce((s, it) => s + it.qty, 0);
+        const mins = Math.floor((Date.now() - b.createdAt) / 60000);
+
+        pill.innerHTML = `
+          <span>#${b.number} (${b.table})</span>
+          ${totalQty > 0 ? `<b style="color:var(--primary);">[${totalQty}]</b>` : ''}
+          <span style="font-size:11px; opacity:0.7;">${mins > 0 ? mins + 'm' : 'baru'}</span>
+        `;
+        container.appendChild(pill);
+      });
+    }
+
+    function discardActiveBill() {
+      const bill = getActiveOrder();
+      if (!bill) return;
+      if (confirm(`Hapus Nota #${bill.number} (${bill.table})?`)) {
+        playSfx('tap');
+        orderBills = orderBills.filter(b => b.id !== bill.id);
+        activeBillId = orderBills.length > 0 ? orderBills[0].id : null;
+        if (!activeBillId) addNewOrderBill(false);
+
+        saveLocalStorage();
+        renderQueueStrip();
+        renderCartTerminal();
+        renderCatalogGrid();
+        showToast("Nota dihapus");
+      }
+    }
+
+    // CATALOG & MODIFIER
+    function filterMenu(cat, btn) {
+      playSfx('tap');
+      currentFilterCat = cat;
+      document.querySelectorAll('.btn-cat-pill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderCatalogGrid();
+    }
+
+    function onSearchChanged() {
+      renderCatalogGrid();
+    }
+
+    function renderCatalogGrid() {
+      const grid = document.getElementById('foodCardsGrid');
+      const search = (document.getElementById('searchInput').value || "").toLowerCase().trim();
+      const currentBill = getActiveOrder();
+
+      grid.innerHTML = "";
+      let list = PRODUCTS;
+
+      if (currentFilterCat !== 'semua') list = list.filter(p => p.cat === currentFilterCat);
+      if (search) list = list.filter(p => p.name.toLowerCase().includes(search));
+
+      list.forEach(p => {
+        let inCartQty = 0;
+        if (currentBill) {
+          inCartQty = currentBill.items.filter(it => it.prodId === p.id).reduce((s, it) => s + it.qty, 0);
+        }
+
+        const card = document.createElement('div');
+        card.className = "food-item-card";
+        card.onclick = () => openModifierModal(p);
+
+        let badgeHtml = inCartQty > 0 ? `<div class="badge-qty-floating">${inCartQty}</div>` : '';
+
+        card.innerHTML = `
+          ${badgeHtml}
+          <div class="food-img-container">
+            <img src="${p.img}" alt="${p.name}" loading="lazy">
+          </div>
+          <div class="food-card-details">
+            <div class="food-card-title">${p.name}</div>
+            <div class="food-card-footer">
+              <span class="food-card-price">${formatRp(p.price)}</span>
+              <button class="btn-quick-add"><i class="fa-solid fa-sliders"></i></button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // MODIFIER MODAL LOGIC
+    function openModifierModal(prod) {
+      playSfx('tap');
+      pendingModifierProduct = prod;
+      document.getElementById('modItemName').innerText = prod.name;
+      document.getElementById('topEgg').checked = false;
+      document.getElementById('topCheese').checked = false;
+      document.getElementById('topBeef').checked = false;
+      document.getElementById('modNoteInput').value = "";
+      setSpicyLevel('Level 1 (Sedang)', document.getElementById('spicy1'));
+
+      openModal('modalModifier');
+    }
+
+    function setSpicyLevel(lvl, btn) {
+      selectedSpicy = lvl;
+      document.querySelectorAll('#modalModifier .btn-sub-action').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function confirmAddWithModifiers() {
+      if (!pendingModifierProduct) return;
+      playSfx('tap');
+
+      let bill = getActiveOrder();
+      if (!bill) {
+        addNewOrderBill(false);
+        bill = getActiveOrder();
+      }
+
+      let extraPrice = 0;
+      let tags = [selectedSpicy];
+
+      if (document.getElementById('topEgg').checked) { extraPrice += 4000; tags.push("+Telur"); }
+      if (document.getElementById('topCheese').checked) { extraPrice += 3000; tags.push("+Keju"); }
+      if (document.getElementById('topBeef').checked) { extraPrice += 5000; tags.push("+Kornet"); }
+
+      const customNote = document.getElementById('modNoteInput').value.trim();
+      if (customNote) tags.push(customNote);
+
+      const variantStr = tags.join(" • ");
+
+      // Check if exact same item & variant exists
+      const existing = bill.items.find(it => it.prodId === pendingModifierProduct.id && it.variant === variantStr);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        bill.items.push({
+          prodId: pendingModifierProduct.id,
+          name: pendingModifierProduct.name,
+          basePrice: pendingModifierProduct.price,
+          extraPrice: extraPrice,
+          unitPrice: pendingModifierProduct.price + extraPrice,
+          variant: variantStr,
+          qty: 1
+        });
+      }
+
+      saveLocalStorage();
+      closeModal('modalModifier');
+      renderCartTerminal();
+      renderCatalogGrid();
+      renderQueueStrip();
+      showToast(`${pendingModifierProduct.name} ditambahkan!`);
+    }
+
+    // CART TERMINAL RENDERING
+    function renderCartTerminal() {
+      const bill = getActiveOrder();
+      const box = document.getElementById('cartItemsList');
+      const titleElem = document.getElementById('currentBillCode');
+      const descElem = document.getElementById('currentBillDesc');
+      const btnPay = document.getElementById('btnPayCheckout');
+
+      if (!bill) {
+        titleElem.innerText = "Tidak Ada Nota";
+        box.innerHTML = `<div class="cart-empty-panel"><p>Buat nota baru untuk mulai mencatat.</p></div>`;
+        btnPay.disabled = true;
+        return;
+      }
+
+      titleElem.innerText = `Nota #${bill.number}`;
+      descElem.innerText = `${bill.table} • ${bill.orderType}`;
+      document.getElementById('selTableNumber').value = bill.table || "Meja 01";
+      document.getElementById('inputGuestTrait').value = bill.guestTrait || "";
+
+      box.innerHTML = "";
+
+      if (bill.items.length === 0) {
+        box.innerHTML = `
+          <div class="cart-empty-panel">
+            <i class="fa-solid fa-basket-shopping" style="font-size:36px; margin-bottom:8px; opacity:0.4;"></i>
+            <p style="font-weight:700;">Pesanan masih kosong</p>
+            <p style="font-size:11.5px; opacity:0.7;">Pilih hidangan di katalog untuk ditambahkan.</p>
+          </div>
+        `;
+        document.getElementById('billSubtotalVal').innerText = formatRp(0);
+        document.getElementById('billTaxVal').innerText = formatRp(0);
+        document.getElementById('billGrandTotalVal').innerText = formatRp(0);
+        btnPay.disabled = true;
+        return;
+      }
+
+      let subtotal = 0;
+
+      bill.items.forEach((it, idx) => {
+        const rowTotal = it.unitPrice * it.qty;
+        subtotal += rowTotal;
+
+        const row = document.createElement('div');
+        row.className = "cart-item-card";
+        row.innerHTML = `
+          <div class="c-details">
+            <div class="c-name">${it.name}</div>
+            <div class="c-sub">${formatRp(it.unitPrice)} x ${it.qty}</div>
+            ${it.variant ? `<div class="c-variant">${it.variant}</div>` : ''}
+          </div>
+          <div class="c-counter">
+            <button class="btn-count" onclick="changeQty(${idx}, -1)">-</button>
+            <span style="font-weight:900; font-family:'JetBrains Mono'; min-width:20px; text-align:center;">${it.qty}</span>
+            <button class="btn-count" onclick="changeQty(${idx}, 1)">+</button>
+          </div>
+          <div class="c-amount">${formatRp(rowTotal)}</div>
+        `;
+        box.appendChild(row);
+      });
+
+      const tax = Math.round(subtotal * 0.10);
+      const grandTotal = subtotal + tax;
+
+      document.getElementById('billSubtotalVal').innerText = formatRp(subtotal);
+      document.getElementById('billTaxVal').innerText = formatRp(tax);
+      document.getElementById('billGrandTotalVal').innerText = formatRp(grandTotal);
+      btnPay.disabled = false;
+    }
+
+    function changeQty(itemIdx, delta) {
+      const bill = getActiveOrder();
+      if (!bill) return;
+
+      bill.items[itemIdx].qty += delta;
+      if (bill.items[itemIdx].qty <= 0) {
+        bill.items.splice(itemIdx, 1);
+        playSfx('tap');
+      } else {
+        playSfx('tap');
+      }
+
+      saveLocalStorage();
+      renderCartTerminal();
+      renderCatalogGrid();
+      renderQueueStrip();
+    }
+
+    function setOrderType(type, btn) {
+      playSfx('tap');
+      const bill = getActiveOrder();
+      if (!bill) return;
+      bill.orderType = type;
+      document.querySelectorAll('.btn-type-chip').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      saveLocalStorage();
+      renderCartTerminal();
+    }
+
+    function onTableMetaChange() {
+      const bill = getActiveOrder();
+      if (!bill) return;
+      bill.table = document.getElementById('selTableNumber').value;
+      bill.guestTrait = document.getElementById('inputGuestTrait').value.trim();
+      saveLocalStorage();
+      renderQueueStrip();
+    }
+
+    // SEND TO KITCHEN (KDS)
+    function sendToKitchen() {
+      const bill = getActiveOrder();
+      if (!bill || bill.items.length === 0) return;
+
+      playSfx('bell');
+      kitchenTickets.unshift({
+        ticketId: "KDS-" + bill.number + "-" + Date.now().toString().slice(-4),
+        billNumber: bill.number,
+        table: bill.table,
+        orderType: bill.orderType,
+        items: [...bill.items],
+        status: "cooking", // cooking -> ready
+        sentAt: Date.now()
+      });
+
+      showToast(`Pesanan #${bill.number} dikirim ke Kitchen Display!`);
+    }
+
+    // PAYMENT SYSTEM
+    function openPaymentModal() {
+      const bill = getActiveOrder();
+      if (!bill || bill.items.length === 0) return;
+
+      playSfx('tap');
+      let subtotal = bill.items.reduce((s, it) => s + (it.unitPrice * it.qty), 0);
+      let grandTotal = subtotal + Math.round(subtotal * 0.10);
+
+      document.getElementById('payFinalTotal').innerText = formatRp(grandTotal);
+      document.getElementById('payBillMetaDesc').innerText = `Nota #${bill.number} • ${bill.table} (${bill.orderType})`;
+
+      // Presets
+      const box = document.getElementById('cashPresetsBox');
+      box.innerHTML = "";
+
+      const presets = [
+        { label: "Uang Pas", val: grandTotal },
+        { label: formatRp(Math.ceil(grandTotal / 10000) * 10000 || 10000), val: Math.ceil(grandTotal / 10000) * 10000 || 10000 },
+        { label: formatRp(Math.ceil(grandTotal / 50000) * 50000 || 50000), val: Math.ceil(grandTotal / 50000) * 50000 || 50000 },
+        { label: "Rp 50.000", val: 50000 },
+        { label: "Rp 100.000", val: 100000 },
+        { label: "Rp 200.000", val: 200000 }
+      ];
+
+      const seen = new Set();
+      presets.filter(p => p.val >= grandTotal && !seen.has(p.val) && seen.add(p.val)).slice(0, 6).forEach((p, i) => {
+        const b = document.createElement('button');
+        b.className = `btn-sub-action ${i === 0 ? 'active' : ''}`;
+        b.innerText = p.label;
+        b.onclick = () => setCashPreset(p.val, b);
+        box.appendChild(b);
+      });
+
+      enteredCash = grandTotal;
+      document.getElementById('inputManualCash').value = grandTotal;
+      calcChange();
+      selectMethod('cash', document.getElementById('methCash'));
+
+      openModal('modalPayment');
+    }
+
+    function selectMethod(meth, btn) {
+      playSfx('tap');
+      selectedPayMethod = meth;
+      document.querySelectorAll('#modalPayment .btn-sub-action').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      document.getElementById('paySectionCash').style.display = meth === 'cash' ? 'block' : 'none';
+      document.getElementById('paySectionQris').style.display = meth === 'qris' ? 'block' : 'none';
+    }
+
+    function setCashPreset(val, btn) {
+      playSfx('tap');
+      enteredCash = val;
+      document.getElementById('inputManualCash').value = val;
+      document.querySelectorAll('#cashPresetsBox button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      calcChange();
+    }
+
+    function calcChange() {
+      const bill = getActiveOrder();
+      let sub = bill.items.reduce((s, it) => s + (it.unitPrice * it.qty), 0);
+      let grand = sub + Math.round(sub * 0.10);
+      let cash = parseFloat(document.getElementById('inputManualCash').value) || 0;
+      let change = cash - grand;
+      const changeElem = document.getElementById('txtChangeDue');
+
+      if (change < 0) {
+        changeElem.innerText = `Kurang ${formatRp(Math.abs(change))}`;
+        changeElem.style.color = "#EF4444";
+        document.getElementById('btnFinishTx').disabled = true;
+      } else {
+        changeElem.innerText = formatRp(change);
+        changeElem.style.color = "#10B981";
+        document.getElementById('btnFinishTx').disabled = false;
+      }
+    }
+
+    function finalizeTransaction() {
+      const bill = getActiveOrder();
+      if (!bill) return;
+
+      playSfx('cash');
+      let sub = bill.items.reduce((s, it) => s + (it.unitPrice * it.qty), 0);
+      let tax = Math.round(sub * 0.10);
+      let grand = sub + tax;
+      let paid = selectedPayMethod === 'cash' ? (parseFloat(document.getElementById('inputManualCash').value) || grand) : grand;
+      let change = Math.max(0, paid - grand);
+
+      const txRecord = {
+        id: "TRX-" + new Date().toISOString().slice(0, 10).replace(/-/g, '') + "-" + bill.number,
+        number: bill.number,
+        table: bill.table,
+        orderType: bill.orderType,
+        guestTrait: bill.guestTrait,
+        method: selectedPayMethod.toUpperCase(),
+        paidAt: Date.now(),
+        subtotal: sub,
+        tax: tax,
+        grandTotal: grand,
+        paid: paid,
+        change: change,
+        items: [...bill.items]
+      };
+
+      completedRecords.unshift(txRecord);
+      lastReceipt = txRecord;
+
+      // Remove from queue
+      orderBills = orderBills.filter(b => b.id !== bill.id);
+      activeBillId = orderBills.length > 0 ? orderBills[0].id : null;
+      if (!activeBillId) addNewOrderBill(false);
+
+      saveLocalStorage();
+      closeModal('modalPayment');
+      renderQueueStrip();
+      renderCartTerminal();
+      renderCatalogGrid();
+
+      // Show Receipt
+      renderReceipt(txRecord);
+      openModal('modalReceipt');
+    }
+
+    // THERMAL RECEIPT PREVIEW
+    function renderReceipt(tx) {
+      document.getElementById('rcpTxId').innerText = tx.id;
+      document.getElementById('rcpTimeStr').innerText = new Date(tx.paidAt).toLocaleString('id-ID') + " WIB";
+      document.getElementById('rcpTableStr').innerText = `${tx.table} ${tx.guestTrait ? '(' + tx.guestTrait + ')' : ''}`;
+      document.getElementById('rcpTypeStr').innerText = tx.orderType;
+
+      const itemsBox = document.getElementById('rcpItemsContainer');
+      itemsBox.innerHTML = "";
+
+      tx.items.forEach(it => {
+        const row = document.createElement('div');
+        row.className = "rcp-row";
+        row.innerHTML = `
+          <span>${it.qty}x ${it.name}</span>
+          <span>${formatRp(it.unitPrice * it.qty)}</span>
+        `;
+        itemsBox.appendChild(row);
+      });
+
+      document.getElementById('rcpSubVal').innerText = formatRp(tx.subtotal);
+      document.getElementById('rcpTaxVal').innerText = formatRp(tx.tax);
+      document.getElementById('rcpTotalVal').innerText = formatRp(tx.grandTotal);
+      document.getElementById('rcpPayType').innerText = `Bayar (${tx.method}):`;
+      document.getElementById('rcpPaidVal').innerText = formatRp(tx.paid);
+      document.getElementById('rcpChangeVal').innerText = formatRp(tx.change);
+    }
+
+    function printReceipt() {
+      playSfx('tap');
+      window.print();
+    }
+
+    function shareWhatsApp() {
+      if (!lastReceipt) return;
+      const r = lastReceipt;
+      let text = `*KEDAIPRO WARKOP & KEDAI 24 JAM*\n`;
+      text += `No: ${r.id}\nTanggal: ${new Date(r.paidAt).toLocaleString('id-ID')}\n`;
+      text += `Meja: ${r.table} (${r.orderType})\n--------------------------------\n`;
+      r.items.forEach(it => {
+        text += `${it.qty}x ${it.name} = ${formatRp(it.unitPrice * it.qty)}\n`;
+      });
+      text += `--------------------------------\n`;
+      text += `Subtotal: ${formatRp(r.subtotal)}\n`;
+      text += `PB1 (10%): ${formatRp(r.tax)}\n`;
+      text += `*TOTAL: ${formatRp(r.grandTotal)}*\n`;
+      text += `Bayar: ${formatRp(r.paid)}\n`;
+      text += `Kembali: ${formatRp(r.change)}\n`;
+      text += `--------------------------------\nTerima kasih atas kunjungannya! 🙏`;
+
+      window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+    }
+
+    // VISUAL TABLES FLOOR PLAN
+    function renderTablesFloor() {
+      const grid = document.getElementById('tablesFloorGrid');
+      grid.innerHTML = "";
+
+      TABLES_MASTER.forEach(tbl => {
+        // Check if there is an active bill for this table
+        const matchingBill = orderBills.find(b => b.table === tbl.id && b.items.length > 0);
+        let status = 'vacant';
+        let statusText = 'Tersedia';
+        let pillClass = 'pill-vacant';
+
+        if (matchingBill) {
+          status = 'occupied';
+          statusText = 'Makan';
+          pillClass = 'pill-occupied';
+        }
+
+        const card = document.createElement('div');
+        card.className = `table-card ${status}`;
+        card.onclick = () => onTableCardClicked(tbl.id, matchingBill);
+
+        const mins = matchingBill ? Math.floor((Date.now() - matchingBill.createdAt) / 60000) : 0;
+        const totalAmount = matchingBill ? matchingBill.items.reduce((s, it) => s + (it.unitPrice * it.qty), 0) : 0;
+
+        card.innerHTML = `
+          <div class="table-head">
+            <span class="table-number-text">${tbl.id}</span>
+            <span class="table-status-pill ${pillClass}">${statusText}</span>
+          </div>
+          <div class="table-body-info">
+            <div class="table-guest-trait">${matchingBill ? (matchingBill.guestTrait || 'Tanpa Ciri') : tbl.type}</div>
+            <div class="table-order-time">${matchingBill ? mins + ' menit lalu' : tbl.capacity + ' Kursi'}</div>
+          </div>
+          <div class="table-foot">
+            <span style="font-size:11.5px; color:var(--text-muted);">${matchingBill ? matchingBill.items.length + ' Item' : 'Siap Pakai'}</span>
+            <b style="font-size:13.5px; font-family:'JetBrains Mono'; color:var(--primary);">${matchingBill ? formatRp(totalAmount) : 'Pilih'}</b>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function onTableCardClicked(tableId, existingBill) {
+      playSfx('tap');
+      if (existingBill) {
+        activeBillId = existingBill.id;
+      } else {
+        addNewOrderBill(false);
+        const b = getActiveOrder();
+        b.table = tableId;
+      }
+      switchView('pos');
+    }
+
+    // KITCHEN DISPLAY SYSTEM (KDS)
+    function renderKdsView() {
+      const grid = document.getElementById('kdsTicketsGrid');
+      grid.innerHTML = "";
+
+      if (kitchenTickets.length === 0) {
+        grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:40px; color:var(--text-muted);">Belum ada tiket pesanan aktif di dapur.</div>`;
+        return;
+      }
+
+      kitchenTickets.forEach((t, i) => {
+        const card = document.createElement('div');
+        card.className = `kds-ticket-card ${t.status}`;
+
+        const mins = Math.floor((Date.now() - t.sentAt) / 60000);
+
+        let itemsHtml = "";
+        t.items.forEach(it => {
+          itemsHtml += `
+            <div class="kds-item-row">
+              <span class="kds-item-qty">${it.qty}x</span>
+              <div>
+                <div>${it.name}</div>
+                ${it.variant ? `<div style="font-size:11px; color:var(--accent); font-weight:700;">${it.variant}</div>` : ''}
+              </div>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="kds-head">
+            <div>
+              <span class="kds-order-title">${t.table} (#${t.billNumber})</span>
+              <div style="font-size:11px; color:var(--text-muted);">${t.orderType}</div>
+            </div>
+            <span class="kds-timer"><i class="fa-solid fa-clock"></i> ${mins}m lalu</span>
+          </div>
+          <div class="kds-items-list">${itemsHtml}</div>
+          <div class="kds-actions">
+            ${t.status === 'cooking' ? `
+              <button class="btn-kds-step" style="background:#10B981; color:#fff;" onclick="advanceKds(${i})">
+                <i class="fa-solid fa-bell"></i> Siap Diantar!
+              </button>
+            ` : `
+              <button class="btn-kds-step" style="background:var(--bg-surface-2); border:1px solid var(--border-color); color:var(--text-muted);" onclick="removeKds(${i})">
+                <i class="fa-solid fa-check"></i> Selesai Disajikan
+              </button>
+            `}
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function advanceKds(idx) {
+      playSfx('bell');
+      kitchenTickets[idx].status = 'ready';
+      renderKdsView();
+      showToast("Pesanan selesai dimasak & siap diantar ke meja!");
+    }
+
+    function removeKds(idx) {
+      playSfx('tap');
+      kitchenTickets.splice(idx, 1);
+      renderKdsView();
+    }
+
+    // REPORTS VIEW
+    function renderReportsView() {
+      const todayStr = new Date().toDateString();
+      const todayRecords = completedRecords.filter(r => new Date(r.paidAt).toDateString() === todayStr);
+
+      const omzet = todayRecords.reduce((s, r) => s + r.grandTotal, 0);
+      const count = todayRecords.length;
+      const avg = count > 0 ? Math.round(omzet / count) : 0;
+
+      document.getElementById('kpiOmzetVal').innerText = formatRp(omzet);
+      document.getElementById('kpiTxnCount').innerText = `${count} Nota`;
+      document.getElementById('kpiAvgVal').innerText = formatRp(avg);
+
+      const tableContainer = document.getElementById('txHistoryTable');
+      tableContainer.innerHTML = "";
+
+      if (todayRecords.length === 0) {
+        tableContainer.innerHTML = `<div style="text-align:center; padding:20px; color:var(--text-muted);">Belum ada riwayat transaksi lunas hari ini.</div>`;
+        return;
+      }
+
+      todayRecords.forEach(r => {
+        const row = document.createElement('div');
+        row.style.background = "var(--bg-surface-2)";
+        row.style.border = "1px solid var(--border-color)";
+        row.style.borderRadius = "8px";
+        row.style.padding = "12px 14px";
+        row.style.display = "flex";
+        row.style.alignItems = "center";
+        row.style.justifyContent = "space-between";
+
+        row.innerHTML = `
+          <div>
+            <div style="font-weight:900;">${r.id} (${r.table})</div>
+            <div style="font-size:11.5px; color:var(--text-muted);">${new Date(r.paidAt).toLocaleTimeString('id-ID')} • ${r.method} • ${r.items.length} Item</div>
+          </div>
+          <div style="font-size:16px; font-weight:900; font-family:'JetBrains Mono'; color:var(--primary);">${formatRp(r.grandTotal)}</div>
+        `;
+        tableContainer.appendChild(row);
+      });
+    }
+
+    function exportDataJson() {
+      const data = {
+        app: "KEDAIPRO POS",
+        exportedAt: new Date().toISOString(),
+        transactions: completedRecords
+      };
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `kedaipro-laporan-${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+      showToast("Laporan berhasil diekspor");
+    }
+
+    // SPLIT BILL MODAL
+    function openSplitBillModal() {
+      const bill = getActiveOrder();
+      if (!bill || bill.items.length === 0) return;
+      playSfx('tap');
+
+      let sub = bill.items.reduce((s, it) => s + (it.unitPrice * it.qty), 0);
+      let grand = sub + Math.round(sub * 0.10);
+
+      document.getElementById('splitTotalDisplay').innerText = formatRp(grand);
+      calcSplit(2, document.querySelector('#modalSplit .btn-sub-action'));
+      openModal('modalSplit');
+    }
+
+    function calcSplit(people, btn) {
+      playSfx('tap');
+      document.querySelectorAll('#modalSplit .btn-sub-action').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const bill = getActiveOrder();
+      let sub = bill.items.reduce((s, it) => s + (it.unitPrice * it.qty), 0);
+      let grand = sub + Math.round(sub * 0.10);
+      let perPerson = Math.ceil(grand / people);
+
+      document.getElementById('splitResultAmount').innerText = `${formatRp(perPerson)} / orang`;
+    }
+
+    // MODAL HELPERS
+    function openModal(id) {
+      document.getElementById(id).classList.add('open');
+    }
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+    }
+
+    // TOAST
+    function showToast(msg) {
+      const box = document.getElementById('toastBox');
+      document.getElementById('toastMessage').innerText = msg;
+      box.classList.add('show');
+      setTimeout(() => box.classList.remove('show'), 2400);
+    }
+
+    // KEYBOARD SHORTCUTS
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'F1') { e.preventDefault(); switchView('pos'); }
+      if (e.key === 'F2') { e.preventDefault(); switchView('tables'); }
+      if (e.key === 'F3') { e.preventDefault(); switchView('kds'); }
+      if (e.key === 'F9') { e.preventDefault(); openPaymentModal(); }
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('open'));
+      }
+    });
+
+    // START
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
